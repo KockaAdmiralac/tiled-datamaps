@@ -1,0 +1,34 @@
+{
+    "automappingRulesFile": "",
+    "commands": [
+    ],
+    "compatibilityVersion": 1100,
+    "extensionsPath": "../extensions",
+    "folders": [
+        "oneshot"
+    ],
+    "properties": [
+        {
+            "name": "languageWiki",
+            "type": "string",
+            "value": "oneshot.wiki.gg/$1"
+        },
+        {
+            "name": "oauthClientId",
+            "type": "string",
+            "value": "7577ea31869b6740239db4163ff90be9"
+        },
+        {
+            "name": "scriptPath",
+            "type": "string",
+            "value": "/"
+        },
+        {
+            "name": "wiki",
+            "type": "string",
+            "value": "oneshot.wiki.gg"
+        }
+    ],
+    "propertyTypes": [
+    ]
+}
