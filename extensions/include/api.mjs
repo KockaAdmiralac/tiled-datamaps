@@ -171,9 +171,10 @@ export function edit(title, text, summary, accessToken, language = 'en') {
  * Retrieves maps from the wiki under specific criteria.
  * @param {object} options Options for retrieving maps
  * @param {string} language Wiki language
+ * @param {object} paging API paging options
  * @returns {Promise<DataMap[]>} List of maps on the wiki
  */
-function getMaps(options, language = 'en') {
+function getMaps(options, language = 'en', paging = {}) {
     return httpGet(getApiUrl(language), Object.assign({
         action: 'query',
         prop: 'revisions',
@@ -181,27 +182,33 @@ function getMaps(options, language = 'en') {
         rvslots: 'main',
         format: 'json',
         formatversion: '2',
-    }, options)).then(data => data.query.pages
-        .filter((/** @type {any} */ page) =>
-            page.revisions &&
-            page.revisions.length > 0 &&
-            page.revisions[0].slots &&
-            page.revisions[0].slots.main &&
-            page.revisions[0].slots.main.contentmodel === 'datamap'
-        )
-        .map((/** @type {any} */ page) => {
-            const {slots, revid} = page.revisions[0];
-            const /** @type {DataMap} */ datamap = JSON.parse(slots.main.content);
-            datamap.custom = datamap.custom || new MetadataImpl();
-            datamap.custom.interwiki = datamap.custom.interwiki || {};
-            datamap.custom.interwiki[language] = new InterwikiDataImpl({
-                mapName: page.title.split(':').slice(1).join(':'),
-            });
-            datamap.custom.interwiki[language].revision = revid;
-            return datamap;
-        })
-        .filter((/** @type {DataMap} */ datamap) => !datamap.$fragment)
-    );
+    }, options, paging)).then(data => {
+        const result = data.query.pages
+            .filter((/** @type {any} */ page) =>
+                page.revisions &&
+                page.revisions.length > 0 &&
+                page.revisions[0].slots &&
+                page.revisions[0].slots.main &&
+                page.revisions[0].slots.main.contentmodel === 'datamap'
+            )
+            .map((/** @type {any} */ page) => {
+                const {slots, revid} = page.revisions[0];
+                const /** @type {DataMap} */ datamap = JSON.parse(slots.main.content);
+                datamap.custom = datamap.custom || new MetadataImpl();
+                datamap.custom.interwiki = datamap.custom.interwiki || {};
+                datamap.custom.interwiki[language] = new InterwikiDataImpl({
+                    mapName: page.title.split(':').slice(1).join(':'),
+                });
+                datamap.custom.interwiki[language].revision = revid;
+                return datamap;
+            })
+            .filter((/** @type {DataMap} */ datamap) => !datamap.$fragment);
+        if (data.continue) {
+            return getMaps(options, language, data.continue)
+                .then(nextMaps => result.concat(nextMaps));
+        }
+        return result;
+    });
 }
 
 /**
