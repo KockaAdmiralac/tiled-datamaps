@@ -1,6 +1,7 @@
 {
     "automappingRulesFile": "",
-    "commands": [],
+    "commands": [
+    ],
     "compatibilityVersion": 1100,
     "extensionsPath": "../extensions",
     "folders": [
@@ -8,28 +9,29 @@
     ],
     "properties": [
         {
+            "name": "languageWiki",
+            "type": "string",
+            "value": "undertaleyellow.wiki.gg/$1"
+        },
+        {
+            "name": "languages",
+            "type": "string",
+            "value": "en,pt-br,zh"
+        },
+        {
+            "name": "oauthClientId",
+            "type": "string",
+            "value": "7577ea31869b6740239db4163ff90be9"
+        },
+        {
             "name": "scriptPath",
-            "propertytype": "",
             "type": "string",
             "value": "/"
         },
         {
             "name": "wiki",
-            "propertytype": "",
             "type": "string",
             "value": "undertaleyellow.wiki.gg"
-        },
-        {
-            "name": "languageWiki",
-            "propertytype": "",
-            "type": "string",
-            "value": "undertaleyellow.wiki.gg/$1"
-        },
-        {
-            "name": "oauthClientId",
-            "propertytype": "",
-            "type": "string",
-            "value": "7577ea31869b6740239db4163ff90be9"
         }
     ],
     "propertyTypes": [

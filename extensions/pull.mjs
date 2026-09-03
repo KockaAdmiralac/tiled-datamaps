@@ -99,7 +99,7 @@ function collectMaps(mapsByLanguage) {
         for (const map of maps) {
             const mapName = map.custom?.interwiki?.en?.mapName;
             if (!mapName) {
-                tiled.log(`Map '${map.custom?.interwiki?.[language].mapName}' is missing an English map name in its metadata, skipping it.`);
+                tiled.log(`Map '${map.custom?.interwiki?.[language].mapName}' in language ${language} is missing an English map name in its metadata, skipping it.`);
                 continue;
             }
             allMaps[mapName] = allMaps[mapName] || {};

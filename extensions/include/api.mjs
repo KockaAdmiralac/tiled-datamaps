@@ -183,6 +183,9 @@ function getMaps(options, language = 'en', paging = {}) {
         format: 'json',
         formatversion: '2',
     }, options, paging)).then(data => {
+        if (!data.query) {
+            return [];
+        }
         const result = data.query.pages
             .filter((/** @type {any} */ page) =>
                 page.revisions &&
